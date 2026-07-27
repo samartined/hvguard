@@ -1,0 +1,31 @@
+# Normalize text by default so contributors on different platforms do not churn the whole tree.
+* text=auto
+
+# PowerShell must stay CRLF. Windows PowerShell 5.1 is far less forgiving about encoding and line
+# endings than PowerShell 7, and this project deliberately supports 5.1 (it is the host that is
+# always present on Windows). A contributor whose editor normalizes these to LF can break the
+# launcher in ways that only reproduce on 5.1.
+*.ps1   text eol=crlf
+*.psd1  text eol=crlf
+*.psm1  text eol=crlf
+*.cmd   text eol=crlf
+*.bat   text eol=crlf
+
+# XAML and the app manifest are read by the .NET XAML/manifest parsers on Windows only.
+*.xaml      text eol=crlf
+*.manifest  text eol=crlf
+
+# Detection content is consumed by cross-platform tooling (sigma-cli, YARA), so keep it LF.
+*.yml  text eol=lf
+*.yar  text eol=lf
+
+# Documentation: LF, so diffs stay readable on any platform and on GitHub.
+*.md   text eol=lf
+
+# Data file read at runtime by T7 and baked into the .exe. Keep it stable and diffable.
+*.csv  text eol=lf
+
+# Binary: never diff or normalize.
+*.png  binary
+*.ico  binary
+*.exe  binary

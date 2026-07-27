@@ -1,0 +1,26 @@
+title: Execution of the hypervisor bypass (DenuvOwO) loader/launcher
+id: 419ba191-d0c1-49b7-a87b-482505ae4c76
+status: experimental
+description: >
+  Detects execution of the bypass loader (hypervisor-launcher.exe) or the security-toggling script
+  (VBS.cmd). In a defensive/managed environment, this execution should not occur.
+references:
+  - docs/02-iocs-and-load-chain.md §1-2
+author: HVGuard project (defensive)
+date: 2026-07-13
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  sel_launcher:
+    Image|endswith: '\hypervisor-launcher.exe'
+  sel_vbscmd:
+    - CommandLine|contains: 'VBS.cmd'
+    - OriginalFileName: 'VBS.cmd'
+  condition: sel_launcher or sel_vbscmd
+falsepositives:
+  - Generic names that match coincidentally (check path/hash)
+level: high
+tags:
+  - attack.execution
+  - attack.defense_evasion

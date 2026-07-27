@@ -1,0 +1,39 @@
+title: Hypervisor bypass (DenuvOwO) driver load or unsigned kernel driver
+id: 2fc92005-41b9-46fd-a9c6-60449124cdaf
+status: experimental
+description: >
+  Detects the load of a kernel driver associated with the hypervisor-based DRM bypass (SimpleSvm.sys,
+  hyperkd.sys, hyperhv.dll, hyperevade.dll) or, more broadly, the load of any driver without a
+  valid signature. The technique needs to load an unsigned driver; on a healthy host with HVCI
+  this should not happen.
+references:
+  - docs/02-iocs-and-load-chain.md (IOCs and load chain)
+  - docs/01-technical-dossier.md (technical dossier)
+author: HVGuard project (defensive)
+date: 2026-07-13
+logsource:
+  product: windows
+  category: driver_load
+detection:
+  selection_names:
+    ImageLoaded|contains:
+      - SimpleSvm
+      - hyperkd
+      - hyperhv
+      - hyperevade
+  selection_unsigned:
+    Signed: 'false'
+  filter_known_good:
+    ImageLoaded|startswith:
+      - 'C:\Windows\System32\drivers\'
+    Signed: 'true'
+  condition: selection_names or (selection_unsigned and not filter_known_good)
+falsepositives:
+  - Legitimate development drivers with test-signing (should be prohibited in production)
+  - Virtualization/security software with its own drivers (fine-tune the exclusion list)
+level: high
+tags:
+  - attack.persistence
+  - attack.privilege_escalation
+  - attack.t1543.003
+  - attack.t1068

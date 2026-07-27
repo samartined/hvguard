@@ -1,0 +1,46 @@
+<Sysmon schemaversion="4.90">
+  <!--
+    T4 - Sysmon configuration fragment to DETECT the hypervisor bypass (DenuvOwO family).
+    Defensive. Based on PUBLIC IOCs (doc 02). Merge/adjust with your baseline Sysmon config.
+    Deployment:  sysmon64.exe -accepteula -i sysmon-hv-bypass.xml    (or -c for a hot update)
+    Note: this is a focused fragment; in production, combine with a baseline like SwiftOnSecurity/Olaf.
+  -->
+  <EventFiltering>
+
+    <!-- EID 6 (DriverLoad): unsigned driver, or one named after the bypass. SimpleSvm.sys is the AMD/SVM driver. -->
+    <RuleGroup name="hvb-driverload" groupRelation="or">
+      <DriverLoad onmatch="include">
+        <Signed condition="is">false</Signed>
+        <SignatureStatus condition="is not">Valid</SignatureStatus>
+        <ImageLoaded condition="contains any">SimpleSvm;hyperkd;hyperhv;hyperevade</ImageLoaded>
+      </DriverLoad>
+    </RuleGroup>
+
+    <!-- EID 1 (ProcessCreate): weaken the boot chain (bcdedit) or launch the bypass. -->
+    <RuleGroup name="hvb-process" groupRelation="or">
+      <ProcessCreate onmatch="include">
+        <CommandLine condition="contains all">bcdedit;testsigning</CommandLine>
+        <CommandLine condition="contains all">bcdedit;hypervisorlaunchtype</CommandLine>
+        <Image condition="end with">\hypervisor-launcher.exe</Image>
+        <CommandLine condition="contains">VBS.cmd</CommandLine>
+      </ProcessCreate>
+    </RuleGroup>
+
+    <!-- EID 12/13 (RegistryEvent): ManageVBS IOC key, and VBS/HVCI being disabled. -->
+    <RuleGroup name="hvb-registry" groupRelation="or">
+      <RegistryEvent onmatch="include">
+        <TargetObject condition="contains">\SOFTWARE\ManageVBS</TargetObject>
+        <TargetObject condition="end with">\DeviceGuard\EnableVirtualizationBasedSecurity</TargetObject>
+        <TargetObject condition="end with">\HypervisorEnforcedCodeIntegrity\Enabled</TargetObject>
+      </RegistryEvent>
+    </RuleGroup>
+
+    <!-- EID 11 (FileCreate): appearance of bypass components on disk. -->
+    <RuleGroup name="hvb-filecreate" groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename condition="contains any">SimpleSvm.sys;hyperkd.sys;hyperhv.dll;hyperevade.dll;hypervisor-launcher.exe;DenuvOwO;DenuoOwO_SRC</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+
+  </EventFiltering>
+</Sysmon>

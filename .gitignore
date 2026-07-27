@@ -1,0 +1,24 @@
+# Build output. HVGuard.exe is published as a release asset, never committed: build-exe.ps1 embeds a
+# ZIP snapshot of launcher/ + defense/ + findings/hashes.csv, so a committed binary silently goes stale
+# and would ship logic that no longer matches the scripts in this tree.
+dist/
+
+# Python bytecode from the one-off analysis tools in tools/
+__pycache__/
+*.pyc
+
+# Runtime state written by the tools on the machine they run on, never source
+posture-log.jsonl
+launch-baseline.json
+hvguard-selftest.out
+
+# Local agent/editor state
+.claude/
+.vscode/
+.idea/
+
+# The sample is NEVER part of this repository. Present only as a guard in case a working copy is made
+# next to one: nothing from a crack (binaries, ISOs, installers) may ever be committed here.
+sample/
+*.iso
+*.7z

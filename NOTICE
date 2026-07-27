@@ -1,0 +1,64 @@
+HVGuard
+Copyright 2026 HVGuard contributors
+
+This product includes software developed for the defensive analysis and
+remediation of hypervisor-based DRM bypass techniques on Windows.
+
+Licensed under the Apache License, Version 2.0. See LICENSE.
+
+--------------------------------------------------------------------------------
+Third-party projects
+--------------------------------------------------------------------------------
+
+This repository contains NO third-party source code. It vendors nothing.
+
+The following open-source projects are STUDIED AND CITED because the analyzed
+bypass is built on top of them. They are referenced by name in the
+documentation and in detection-rule metadata so that defenders can tell stock
+upstream behaviour from behaviour added by the bypass. No code from any of them
+is copied into this repository, in source or binary form, so their terms -
+including any copyleft terms - place no obligation on this work. Their
+licences are deliberately NOT restated here: the authoritative licence is the
+one published in each upstream repository, and that is where anyone intending
+to reuse their code should look.
+
+  - SimpleSvm - Satoshi Tanda
+    https://github.com/tandasat/SimpleSvm
+    A minimal educational AMD SVM hypervisor. The bypass ships a driver derived
+    from it. Referenced in defense/telemetry/yara/denuvowo.yar, whose strings
+    are lifecycle log messages published in that project's public source, not
+    extracted from the bypass binary.
+
+  - HyperDbg - Sina Karvandi
+    https://github.com/HyperDbg/HyperDbg
+    A hypervisor-assisted debugger. The bypass's VMM component is reported to
+    be based on it. Referenced by name only.
+
+  - EfiGuard - Mattiwatti
+    https://github.com/Mattiwatti/EfiGuard
+    A UEFI bootkit that disables PatchGuard and driver signature enforcement.
+    Present in sibling releases of the same family, absent from the flow
+    analyzed here. Referenced by name only.
+
+--------------------------------------------------------------------------------
+Detection content
+--------------------------------------------------------------------------------
+
+The Sigma rules in defense/telemetry/sigma/ and the YARA rules in
+defense/telemetry/yara/ are additionally offered under the
+Detection Rule License 1.1 (DRL-1.1), https://github.com/SigmaHQ/Detection-Rule-License,
+so they can be adopted and redistributed by detection-engineering projects that
+standardise on it.
+
+--------------------------------------------------------------------------------
+What this project deliberately does not contain
+--------------------------------------------------------------------------------
+
+  - No bypass, crack, loader, or circumvention code, in source or binary form.
+  - No game files, installers, disc images, or any part of a pirated release.
+  - No download links, mirrors, magnet links, or instructions for obtaining any
+    of the above.
+
+Components of the analyzed bypass are referenced by file name and SHA-256 only,
+and only where doing so serves detection. See CLAUDE.md for the operating rules
+this project held itself to.

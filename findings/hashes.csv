@@ -1,0 +1,2 @@
+relative_path,size_bytes,category,detail,sha256,hash_status,entropy_bits_per_byte,entropy_scope,magic_hex,is_relevant,ioc_reason,file_desc,mtime_utc
+SimpleSvm.sys,18736,pe-sys,arch=x64;driver;unsigned-root;SimpleSvm-hypervisor,e07cbc3dbab8624940b1f733eaecc1a4eca7a66f09066b950b60c7b0a63cd08a,OK,5.8,FULL,4d5a900003000000,1,IOC-D5;crack-driver,AMD-SVM hypervisor driver of the DenuvOwO bypass (extracted by hypervisor-launcher.exe into a temporary folder; signature chains to an untrusted root),2026-07-19T05:26:00Z

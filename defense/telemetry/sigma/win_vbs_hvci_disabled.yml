@@ -1,0 +1,28 @@
+title: VBS/HVCI disabled via registry (DeviceGuard set to 0)
+id: e9d94c2e-7259-4970-bc24-b5ce6bbe26b1
+status: experimental
+description: >
+  Detects writing 0 to the DeviceGuard keys that govern VBS and HVCI. The bypass technique needs
+  VBS/HVCI turned off; seeing these keys set to 0 is a signal of bypass preparation or of tampering
+  with the security posture.
+references:
+  - docs/02-iocs-and-load-chain.md §4
+  - docs/04-defensive-tools-spec.md (T2)
+author: HVGuard project (defensive)
+date: 2026-07-13
+logsource:
+  product: windows
+  category: registry_set
+detection:
+  selection:
+    TargetObject|endswith:
+      - '\Control\DeviceGuard\EnableVirtualizationBasedSecurity'
+      - '\Scenarios\HypervisorEnforcedCodeIntegrity\Enabled'
+    Details: 'DWORD (0x00000000)'
+  condition: selection
+falsepositives:
+  - Legitimate administrative configuration changes (should be controlled and justified)
+level: high
+tags:
+  - attack.defense_evasion
+  - attack.t1562.001

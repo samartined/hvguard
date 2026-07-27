@@ -1,0 +1,23 @@
+title: Creation of the tracking key HKLM\SOFTWARE\ManageVBS (DenuvOwO bypass IOC)
+id: 2477eeab-c666-430a-8c89-377f16c2faa7
+status: experimental
+description: >
+  The bypass's VBS.cmd creates HKLM\SOFTWARE\ManageVBS so it can revert the VBS changes. Its
+  appearance is a direct indicator that the technique was prepared or used on the machine.
+references:
+  - docs/02-iocs-and-load-chain.md §3.2
+author: HVGuard project (defensive)
+date: 2026-07-13
+logsource:
+  product: windows
+  category: registry_add
+detection:
+  selection:
+    TargetObject|contains: '\SOFTWARE\ManageVBS'
+  condition: selection
+falsepositives:
+  - None known; the name is very specific to the crack
+level: high
+tags:
+  - attack.defense_evasion
+  - attack.t1112

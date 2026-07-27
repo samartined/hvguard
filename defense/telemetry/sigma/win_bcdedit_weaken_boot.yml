@@ -1,0 +1,32 @@
+title: Boot weakening via bcdedit (testsigning / hypervisorlaunchtype)
+id: 883109df-5ca8-48fb-a2f4-2de50dac0801
+status: experimental
+description: >
+  Detects the use of bcdedit to enable testsigning (allows unsigned drivers) or disable the
+  hypervisor (hypervisorlaunchtype off), steps the bypass technique needs in order to load.
+references:
+  - docs/02-iocs-and-load-chain.md §4
+author: HVGuard project (defensive)
+date: 2026-07-13
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection_img:
+    - Image|endswith: '\bcdedit.exe'
+    - OriginalFileName: 'bcdedit.exe'
+  sel_testsigning:
+    CommandLine|contains|all:
+      - 'testsigning'
+      - 'on'
+  sel_hvlaunch:
+    CommandLine|contains|all:
+      - 'hypervisorlaunchtype'
+      - 'off'
+  condition: selection_img and (sel_testsigning or sel_hvlaunch)
+falsepositives:
+  - Legitimate administrators/driver debugging (should be justified and logged)
+level: high
+tags:
+  - attack.defense_evasion
+  - attack.t1553.006

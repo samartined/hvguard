@@ -1,0 +1,29 @@
+title: Driver blocked by code integrity policy (CodeIntegrity 3033/3077)
+id: 3303597f-2239-4528-abd2-41955162c8ff
+status: experimental
+description: >
+  The Microsoft-Windows-CodeIntegrity/Operational channel logs 3033/3077 when a driver fails to meet
+  policy (e.g. unsigned) and gets blocked. With HVCI/WDAC enabled, this is the signal that something
+  attempted to load an unsigned driver -- exactly what the bypass technique does. This is a POSITIVE
+  defensive signal (it got blocked), but the source should still be investigated.
+references:
+  - docs/02-iocs-and-load-chain.md §5
+  - docs/04-defensive-tools-spec.md (T3/T4)
+author: HVGuard project (defensive)
+date: 2026-07-13
+logsource:
+  product: windows
+  service: codeintegrity-operational
+detection:
+  selection:
+    Channel: 'Microsoft-Windows-CodeIntegrity/Operational'
+    EventID:
+      - 3033
+      - 3077
+  condition: selection
+falsepositives:
+  - Legitimate unsigned third-party drivers that are poorly packaged (investigate and sign/exclude)
+level: medium
+tags:
+  - attack.execution
+  - attack.t1543.003
