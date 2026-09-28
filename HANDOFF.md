@@ -110,6 +110,14 @@ executed.**
   bounded with `\b` (false positive on `EhStorTcgDrv`); (3) **T3**'s blocklist merge is now
   **non-fatal** (local copy + temp output; used to abort on "Access denied"); (4) **T2** no
   longer requires a reboot if VBS/HVCI are already running.
+- **T3 1.1.0 (2026-09-28):** (1) no longer enables `Enabled:UMCI`. With UMCI in audit mode,
+  PowerShell 7 reported `ConstrainedLanguage` machine-wide (and `-Enforce` would have blocked every
+  non-Microsoft app); the policy is now kernel-only. (2) `Set-CIPolicyIdInfo -PolicyId` only set a
+  text label, so the policy kept the Microsoft template GUID `{E0ABDA1F-…}` and `-Remove` removed
+  nothing while reporting success. The own GUID is now written into `<PolicyID>`/`<BasePolicyID>`;
+  `-Audit` migrates (removes) the old template-GUID policy, `-Remove` finds policies by name, and
+  CiTool results are checked (`--json`). (3) The version is bumped from the deployed one instead of
+  a fixed `1.0.0.0`. `-Status` warns if a deployed policy still has UMCI.
 
 **Pending / open:**
 - **HVGuard launcher (GUI):** **IMPLEMENTED** in `launcher/` (see `launcher/README.md` and

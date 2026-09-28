@@ -87,7 +87,10 @@ HVGuard-PostureMonitor` → confirm a **7001** event.
 ```
 **Restart.** Use the system normally and review `Microsoft-Windows-CodeIntegrity/Operational` → **3076**
 events ("would be blocked"). If NOTHING critical would be blocked, *only then* consider `-Enforce`.
-Rollback: `.\T3-wdac-block-unsigned-drivers.ps1 -Remove`.
+Check that the policy is kernel-only: `pwsh -NoProfile -c '$ExecutionContext.SessionState.LanguageMode'`
+must still print `FullLanguage`, and `-Status` must show no `UMCI` warning.
+Rollback: `.\T3-wdac-block-unsigned-drivers.ps1 -Remove` (also removes a policy deployed by T3 < 1.1.0;
+a second `-Remove` must report `ERROR`, not `APPLIED`).
 👉 **Restore the "CLEAN" snapshot.** (That is why you snapshot first and audit first.)
 
 ## Phase 6 — T4 telemetry (optional)
