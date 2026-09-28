@@ -21,8 +21,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("HVGuard")]
 [assembly: AssemblyCompany("HVGuard")]
 [assembly: AssemblyDescription("Defensive assistant against the hypervisor-based DRM bypass (blue team). Wraps the validated suite.")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]
 
 static class HVGuardLauncher
 {

@@ -2,7 +2,7 @@
 <!-- HVGuard.exe: launcher. asInvoker on purpose: elevation (and the degrade to read-only if
      UAC is cancelled) is handled by HVGuard.ps1, not the .exe. This preserves read-only mode. -->
 <assembly xmlns="urn:schemas-microsoft-com:asm.v1" manifestVersion="1.0">
-  <assemblyIdentity version="1.0.0.0" name="HVGuard.Launcher" type="win32" />
+  <assemblyIdentity version="1.0.1.0" name="HVGuard.Launcher" type="win32" />
   <trustInfo xmlns="urn:schemas-microsoft-com:asm.v3">
     <security>
       <requestedPrivileges>

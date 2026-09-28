@@ -26,7 +26,7 @@
 .PARAMETER SelfTestMs   Milliseconds the window stays open in -SelfTest (default 1500).
 
 .NOTES
-    Compatible with Windows PowerShell 5.1 and PowerShell 7. Version: 1.0.0
+    Compatible with Windows PowerShell 5.1 and PowerShell 7. Version: 1.0.1
 #>
 [CmdletBinding()]
 param(
